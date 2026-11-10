@@ -1,0 +1,153 @@
+/* ==========================================================
+   Práctica guiada: Tarjeta de perfil responsive
+   Orden: Reset -> Mobile (base) -> Tablet (768px) -> Desktop (1024px)
+   Vamos a ir llenando cada sección en vivo, en ese orden.
+   ========================================================== */
+
+/* ===== Reset ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background: #f3f4f6;
+  padding: 1rem;
+}
+
+/* ===== Base: Mobile (320px+) ===== */
+.card {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.card__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.25rem;
+  color: #111827;
+}
+
+.card__role {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card__bio {
+  font-size: 0.875rem;
+  color: #374151;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.card__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 0.5rem;
+  background: #f9fafb;
+  border-radius: 0.375rem;
+}
+
+.stat__value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.stat__label {
+  display: block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.btn--primary  { background: #2563eb; color: #ffffff; }
+.btn--secondary { background: #e5e7eb; color: #374151; }
+.btn:focus { outline: 2px solid #2563eb; outline-offset: 2px; }
+  
+
+/* ===== Tablet (768px+) ===== */
+
+@media (min-width: 768px) {
+
+  .card {
+    padding: 3.5rem;
+  }
+
+  .card__avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .card__name {
+    font-size: 1.5rem;
+  }
+
+  .card__name {
+    font-size: 1.5rem;
+  }
+
+  .card__stats {
+    flex-direction: row;
+    justify-content: space-around;
+    /* justify-content: space-between; */
+    /* justify-content: space-evenly; */
+
+    gap: 1.5rem;
+  }
+}
+
+
+/* ===== Desktop (1024px+) ===== */
+
+@media (min-width: 1024px) {
+
+  .card {
+    max-width: 32rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .card__avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .card__name {
+    font-size: 1.75rem;
+  }
+
+  .card__stats {
+    gap: 2rem;
+  }
+
+}
