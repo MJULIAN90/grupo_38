@@ -1,0 +1,164 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #15171c;
+  color: #e5e7eb;
+  padding: 24px;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  max-width: 420px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #343842;
+  background: #1f2229;
+  color: #e5e7eb;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.search-form input::placeholder {
+  color: #6b7280;
+}
+
+.search-form button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #22d3ee;
+  color: #0b0d11;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.search-form button:hover {
+  background: #67e8f9;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: #1f2229;
+  border: 1px solid #2a2e37;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+}
+
+.card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .card {
+    flex-direction: row;
+  }
+
+  .card-img {
+    width: 140px;
+    height: auto;
+    flex-shrink: 0;
+  }
+}
+
+.card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.card-meta {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.card-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.alive   { background: #22c55e; }
+.status-dot.dead    { background: #ef4444; }
+.status-dot.unknown { background: #9ca3af; }
+
+.card-detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 6px;
+  row-gap: 2px;
+  font-size: 0.8rem;
+  color: #c4c8d1;
+  margin-top: 4px;
+}
+
+.card-detail dt {
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 16px;
+  color: #9ca3af;
+  font-size: 1rem;
+}
