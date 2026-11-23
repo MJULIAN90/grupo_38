@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <h1>Chat</h1>
+    </header>
+
+    <p class="loading-indicator" id="loading-indicator" hidden>Cargando mensajes...</p>
+
+    <div class="error-state" id="error-state" hidden>
+      <p>Ocurrió un error al cargar los mensajes.</p>
+      <button id="retry-btn" type="button">Reintentar</button>
+    </div>
+
+    <main class="messages" id="messages"></main>
+
+    <form class="composer" id="composer">
+      <input id="composer-input" type="text" placeholder="Escribí un mensaje..." autocomplete="off" />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script type="module" src="src/views/chatView.js"></script>
+</body>
+</html>
