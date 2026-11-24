@@ -1,14 +1,11 @@
 // src/views/chatView.js
-// Orquestador: arranca la pantalla, carga mensajes y conecta el formulario.
+// Vista del chat: pinta los mensajes iniciales, carga los del servidor
+// y conecta el formulario.
 //
-// OJO: acá vive el bug de "loading infinito". fetch() no lanza una excepción
-// solo porque la respuesta sea 404 — eso significa que el try de abajo
-// "no cae en catch" por culpa del fetch en sí. El problema real es que
-// nadie valida res.ok, así que seguimos con data = { error: "..." } y al
-// hacer data.messages.map(...) explota (eso sí tira al catch) — pero como
-// setLoading(false) estaba DESPUÉS de esa línea, nunca se llega a ejecutar.
-// Tampoco hay un setError(true) en el catch, así que no se ve ningún aviso:
-// la app queda con el "Cargando mensajes..." pegado en pantalla.
+// loadMessages maneja los tres estados: loading, success y error.
+// fetchMessages() lanza una excepción si la API responde 404/500; el catch
+// muestra el error en la UI y el finally siempre apaga el loading.
+// El botón "Reintentar" vuelve a llamar a loadMessages.
 
 import { fetchMessages } from "../services/messagesApi.js";
 import { toMessageView } from "../transform/message.js";
@@ -31,28 +28,34 @@ const seedMessages = [
   { author: "bot", text: "Spoiler: la evidencia que recolectes en DevTools es lo más importante del prompt." },
 ];
 
-renderMessages(seedMessages.map(toMessageView));
-
 async function loadMessages() {
   setLoading(true);
+  setError(false);
   try {
     const data = await fetchMessages();
     renderMessages(data.messages.map(toMessageView));
-    setLoading(false);
   } catch (err) {
     console.error("Error loading messages:", err);
+    setError(true);
+  } finally {
+    setLoading(false);
   }
 }
 
-document.getElementById("retry-btn")?.addEventListener("click", loadMessages);
-
-document.getElementById("composer").addEventListener("submit", (e) => {
-  e.preventDefault();
+function handleComposerSubmit(event) {
+  event.preventDefault();
   const input = document.getElementById("composer-input");
   const text = input.value.trim();
   if (!text) return;
   addMessageBubble(toMessageView({ author: "me", text }));
   input.value = "";
-});
+}
 
-loadMessages();
+export function initChatView() {
+  renderMessages(seedMessages.map(toMessageView));
+
+  document.getElementById("retry-btn")?.addEventListener("click", loadMessages);
+  document.getElementById("composer").addEventListener("submit", handleComposerSubmit);
+
+  loadMessages();
+}

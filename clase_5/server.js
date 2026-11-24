@@ -25,6 +25,8 @@ const MIME = {
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
+  console.log('hola');
+  
   // Backend roto a propósito: siempre 404.
   if (url.pathname === "/api/messages") {
     res.writeHead(404, { "Content-Type": "application/json; charset=utf-8" });
