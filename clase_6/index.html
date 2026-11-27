@@ -10,6 +10,11 @@
     <div class="chat-container">
       <header class="chat-header">
         <h1>Chat AI</h1>
+        <select id="persona-select">
+          <option value="mentor">Mentor técnico</option>
+          <option value="detective">Detective noir</option>
+          <option value="chef">Chef italiano</option>
+        </select>
       </header>
       <div id="chat-messages" class="chat-messages"></div>
       <p id="status" class="chat-status"></p>
@@ -22,6 +27,7 @@
         <button id="send-btn">Enviar</button>
       </div>
     </div>
+    <script src="dictionary.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

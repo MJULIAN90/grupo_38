@@ -23,6 +23,21 @@ body {
 .chat-header {
   padding: 16px 20px;
   border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-header h1 {
+  font-size: 1.1rem;
+}
+
+.chat-header select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 0.85rem;
+  background: white;
 }
 
 .chat-messages {
@@ -34,19 +49,66 @@ body {
   gap: 12px;
 }
 
-/* ✏️ Diferenciá los mensajes por role */
 .message {
   max-width: 75%;
   padding: 10px 14px;
   border-radius: 8px;
 }
 
+.message-role {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.6;
+  margin-bottom: 2px;
+}
+
+.message-text {
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
 .message--user {
-  /* Pista: align-self: flex-end + background distinto */
+  align-self: flex-end;
+  background: #2563eb;
+  color: white;
+}
+
+.message--user .message-role {
+  opacity: 0.85;
 }
 
 .message--assistant {
-  /* Pista: align-self: flex-start */
+  align-self: flex-start;
+  background: #e9e9ec;
+  color: #222;
+}
+
+/* Indicador de "escribiendo..." */
+.message--typing .typing-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  height: 1em;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #888;
+  display: inline-block;
+  animation: typing-bounce 1s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+  30% { transform: translateY(-4px); opacity: 1; }
 }
 
 .chat-status {
@@ -54,6 +116,16 @@ body {
   font-size: 0.8rem;
   color: #888;
   min-height: 1.4rem;
+}
+
+.chat-status--retry {
+  color: #c2660d;
+  font-weight: 600;
+}
+
+.chat-status--error {
+  color: #c0392b;
+  font-weight: 600;
 }
 
 .chat-input-area {
@@ -76,10 +148,15 @@ body {
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  /* ✏️ Estilizalo */
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
 }
 
-/* ✏️ Estado disabled del botón */
+.chat-input-area button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
 .chat-input-area button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
