@@ -10,7 +10,8 @@ async function mockFetchAI(payload) {
   callCount++;
   await wait(800); // simula latencia
 
-  if (callCount % 5 === 0) {                  // cada 5 calls → simula 429
+  if (callCount % 5 === 0) {
+    // cada 5 calls → simula 429
     const err = new Error("Rate limit");
     err.status = 429;
     err.retryAfterSeconds = 3;
@@ -26,15 +27,16 @@ async function mockFetchAI(payload) {
   return {
     content: [{ type: "text", text: respuestaTexto }],
     usage: { input_tokens: 110, output_tokens: 28 },
-    stop_reason: "end_turn"
+    stop_reason: "end_turn",
   };
 }
 
 // --- Personajes (reto extra) ---
 const PERSONAS = {
-  mentor:    "Sos un mentor técnico directo. Máximo 3 líneas. Sin markdown.",
-  detective: "Sos un detective noir lacónico. Hablás en metáforas oscuras. Máximo 2 líneas.",
-  chef:      "Sos un chef italiano apasionado. Todo lo relacionás con comida. Máximo 3 líneas.",
+  mentor: "Sos un mentor técnico directo. Máximo 3 líneas. Sin markdown.",
+  detective:
+    "Sos un detective noir lacónico. Hablás en metáforas oscuras. Máximo 2 líneas.",
+  chef: "Sos un chef italiano apasionado. Todo lo relacionás con comida. Máximo 3 líneas.",
 };
 
 // --- System prompt (personaje propio por defecto) ---
@@ -42,7 +44,7 @@ let SYSTEM_PROMPT = PERSONAS.mentor;
 
 function changePersona(key) {
   SYSTEM_PROMPT = PERSONAS[key] ?? PERSONAS.mentor;
-  messages = [];       // reseteá el historial al cambiar de personaje
+  messages = []; // reseteá el historial al cambiar de personaje
   renderMessages();
   clearStatus();
 }
@@ -54,7 +56,7 @@ function buildPayload(messages) {
     system: SYSTEM_PROMPT,
     temperature: 0.3,
     max_tokens: 150,
-    messages
+    messages,
   };
 }
 
@@ -62,8 +64,8 @@ function buildPayload(messages) {
 function normalizeAIResponse(raw) {
   const blocks = Array.isArray(raw?.content) ? raw.content : [];
   return blocks
-    .filter(b => b?.type === "text" && typeof b.text === "string")
-    .map(b => b.text)
+    .filter((b) => b?.type === "text" && typeof b.text === "string")
+    .map((b) => b.text)
     .join("")
     .trim();
 }
@@ -73,7 +75,9 @@ let messages = [];
 
 // --- Estado de UI ---
 let isLoading = false;
-function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+function wait(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 
 // --- Orquestador ---
 async function sendMessage(userText) {
@@ -99,18 +103,21 @@ async function sendMessage(userText) {
     hideTyping();
     if (err.status === 429) {
       const secs = err.retryAfterSeconds ?? 5;
-      showRetryState(secs);               // UI: "Reintentando en 3..."
+      showRetryState(secs); // UI: "Reintentando en 3..."
       await wait(secs * 1000);
       showTyping();
       try {
         const raw2 = await mockFetchAI(payload);
         hideTyping();
-        messages.push({ role: "assistant", content: normalizeAIResponse(raw2) });
+        messages.push({
+          role: "assistant",
+          content: normalizeAIResponse(raw2),
+        });
         renderMessages();
         clearStatus();
       } catch {
         hideTyping();
-        messages.pop();                   // sacá el mensaje de usuario fallido
+        messages.pop(); // sacá el mensaje de usuario fallido
         renderMessages();
         showError("No se pudo enviar. Intentá de nuevo.");
       }
@@ -120,7 +127,7 @@ async function sendMessage(userText) {
     }
   } finally {
     isLoading = false;
-    enableSendButton();                   // siempre se libera, incluso si hay error
+    enableSendButton(); // siempre se libera, incluso si hay error
   }
 }
 
@@ -136,23 +143,29 @@ function debounce(fn, delay) {
 const debouncedSend = debounce(sendMessage, 300);
 
 sendButton.addEventListener("click", () => debouncedSend(inputEl.value));
-inputEl.addEventListener("keydown", e => {
+inputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter") debouncedSend(inputEl.value);
 });
 
 if (personaSelect) {
-  personaSelect.addEventListener("change", () => changePersona(personaSelect.value));
+  personaSelect.addEventListener("change", () =>
+    changePersona(personaSelect.value),
+  );
 }
 
 // --- Render ---
 function renderMessages() {
   const container = document.getElementById("chat-messages");
-  container.innerHTML = messages.map(msg => `
+  container.innerHTML = messages
+    .map(
+      (msg) => `
     <div class="message message--${msg.role}">
       <span class="message-role">${msg.role === "user" ? "Vos" : "AI"}</span>
       <p class="message-text">${msg.content}</p>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
   container.scrollTop = container.scrollHeight;
 }
 
